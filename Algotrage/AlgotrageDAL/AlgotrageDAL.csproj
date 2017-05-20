@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Context\AlgotrageContext.cs" />
+    <Compile Include="Entities\Arbitrage.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameSiteRatio.cs" />
     <Compile Include="Entities\Site.cs" />
@@ -61,12 +62,33 @@
     <Compile Include="Migrations\201705201416555_inital.Designer.cs">
       <DependentUpon>201705201416555_inital.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705201506032_arbitrageTableAdd.cs" />
+    <Compile Include="Migrations\201705201506032_arbitrageTableAdd.Designer.cs">
+      <DependentUpon>201705201506032_arbitrageTableAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705201527485_arbitrageTableAdd2.cs" />
+    <Compile Include="Migrations\201705201527485_arbitrageTableAdd2.Designer.cs">
+      <DependentUpon>201705201527485_arbitrageTableAdd2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705201530141_navProps.cs" />
+    <Compile Include="Migrations\201705201530141_navProps.Designer.cs">
+      <DependentUpon>201705201530141_navProps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705201416555_inital.resx">
       <DependentUpon>201705201416555_inital.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705201506032_arbitrageTableAdd.resx">
+      <DependentUpon>201705201506032_arbitrageTableAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705201527485_arbitrageTableAdd2.resx">
+      <DependentUpon>201705201527485_arbitrageTableAdd2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705201530141_navProps.resx">
+      <DependentUpon>201705201530141_navProps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
