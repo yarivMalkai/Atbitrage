@@ -9,11 +9,11 @@ namespace AlgotrageFinder
 {
     public class ArbitrageManager
     {
-        public List<Team> teams;
-        public List<Game> games;
-        public List<Site> sites;
+        private List<Team> teams;
+        private List<Game> games;
+        private List<Site> sites;
 
-        public Dictionary<int, Arbitrage> activeArbitrages;
+        private Dictionary<int, Arbitrage> activeArbitrages;
 
         public ArbitrageManager()
         {
@@ -24,6 +24,8 @@ namespace AlgotrageFinder
             activeArbitrages = new Dictionary<int, Arbitrage>();
         }
 
+
+
         public void findArbitrage()
         {
             foreach (var game in games)
@@ -33,6 +35,66 @@ namespace AlgotrageFinder
                     calcArbitrage(game);
             }
         }
+
+        public void checkForUpdates()
+        {
+            foreach (var arbitrage in activeArbitrages)
+            {
+                var game = arbitrage.Value.Game;
+
+                if (game.Date > DateTime.Now ||
+                    arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).SiteId ||
+                    arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).SiteId ||
+                    arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).SiteId)
+                {
+                    removeArbitrage(arbitrage.Value);
+                }
+            }
+        }
+
+        public void addSite(string name, string url, string image = null)
+        {
+            if (sites.FirstOrDefault(x => x.Name == name && x.Url == url) == null)
+                return;
+
+            Site site = new Site();
+            site.Name = name;
+            site.Url = url;
+            site.Image = image;
+
+            sites.Add(site);
+        }
+
+        public void removeSite(string url)
+        {
+            var site = sites.FirstOrDefault(x => x.Url == url);
+
+            if (site != null)
+                sites.Remove(site);
+        }
+
+        public void addTeam(string name)
+        {
+            Team team = teams.FirstOrDefault(x => x.DisplayName == name || x.PossibleNames.FirstOrDefault(possibleName => possibleName.PossibleName == name) != null);
+
+            if (team == null)
+            {
+                team = new Team();
+                team.DisplayName = name;
+
+                teams.Add(team);
+            }
+            else
+            {
+                TeamPossibleName anotherName = new TeamPossibleName();
+                anotherName.PossibleName = name;
+                anotherName.TeamId = team.Id;
+
+                team.PossibleNames.Add(anotherName);
+            }
+        }
+
+
 
         private void calcArbitrage(Game game)
         {
@@ -83,59 +145,11 @@ namespace AlgotrageFinder
             return (prob1 + prob2 + prob3);
         }
 
-        public void checkForUpdates()
-        {
-            foreach (var arbitrage in activeArbitrages)
-            {
-                var game = arbitrage.Value.Game;
-
-                if (game.Date > DateTime.Now ||
-                    arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).SiteId ||
-                    arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).SiteId ||
-                    arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).SiteId)
-                {
-                    removeArbitrage(arbitrage.Value);
-                }
-            }
-        }
-
         private void removeArbitrage(Arbitrage arbitrage)
         {
             arbitrage.ExpireTime = DateTime.Now;
 
             activeArbitrages.Remove(arbitrage.GameId);
-        }
-
-        public void addSite(string name, string url, string image = null)
-        {
-            if (sites.FirstOrDefault(x => x.Name == name && x.Url == url) == null)
-                return;
-
-            Site site = new Site();
-            site.Name = name;
-            site.Url = url;
-            site.Image = image;
-
-            sites.Add(site);
-        }
-
-        public void removeSite(string url)
-        {
-            var site = sites.FirstOrDefault(x => x.Url == url);
-
-            if (site != null)
-                sites.Remove(site);
-        }
-
-        public void addTeam(string name)
-        {
-            if (teams.FirstOrDefault(x => x.DisplayName == name || x.PossibleNames.FirstOrDefault(possibleName => possibleName.PossibleName == name) != null) == null)
-                return;
-
-            Team team = new Team();
-            team.DisplayName = name;
-
-            teams.Add(team);
         }
     }
 }
