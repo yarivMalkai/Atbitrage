@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace AlgotrageDAL.Entities
 {
-    public class Arbitrage
+    public class Arbitrage : BaseEntity
     {
-        public int Id { get; set; }
         public int GameId { get; set; }
         public double HomeRatio { get; set; }
         public int HomeRatioSiteId { get; set; }

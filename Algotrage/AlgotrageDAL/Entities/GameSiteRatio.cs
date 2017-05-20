@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace AlgotrageDAL.Entities
 {
-    public class GameSiteRatio
+    public class GameSiteRatio : BaseEntity
     {
-        public int Id { get; set; }
         public int GameId { get; set; }
         public int SiteId { get; set; }
         public double HomeRatio { get; set; }

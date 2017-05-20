@@ -11,6 +11,7 @@ namespace AlgotrageDAL.Context
 {
     public class AlgotrageContext : DbContext
     {
+        //public DbSet<BaseEntity> Entities { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Site> Sites { get; set; }
         public DbSet<Game> Games { get; set; }

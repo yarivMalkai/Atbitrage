@@ -7,13 +7,13 @@ namespace AlgotrageDAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class arbitrageTableAdd : IMigrationMetadata
+    public sealed partial class aaa : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(arbitrageTableAdd));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(aaa));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705201506032_arbitrageTableAdd"; }
+            get { return "201705201815584_aaa"; }
         }
         
         string IMigrationMetadata.Source

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace AlgotrageDAL.Entities
 {
-    public class Team
+    public class Team : BaseEntity
     {
-        public int TeamId { get; set; }
         public string DisplayName { get; set; }
 
         public virtual List<TeamPossibleName> PossibleNames { get; set; }

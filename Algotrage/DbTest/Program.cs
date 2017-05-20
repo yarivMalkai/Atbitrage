@@ -1,5 +1,6 @@
 ﻿using AlgotrageDAL.Context;
 using AlgotrageDAL.Entities;
+using AlgotrageDAL.EntityManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,7 @@ namespace DbTest
 
                 //db.SaveChanges();
 
-                var games = db.Games.ToList();
-                var game = games.First();
-                Console.WriteLine($"{game.HomeTeam.DisplayName} - {game.AwayTeam.DisplayName}");
+                var games = new GamesManager().GetAll();
             }
         }
     }

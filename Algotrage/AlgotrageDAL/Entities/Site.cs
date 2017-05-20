@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace AlgotrageDAL.Entities
 {
-    public class Site
+    public class Site : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
         public string Image { get; set; }
