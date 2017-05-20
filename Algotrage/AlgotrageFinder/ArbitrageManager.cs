@@ -105,5 +105,37 @@ namespace AlgotrageFinder
 
             activeArbitrages.Remove(arbitrage.GameId);
         }
+
+        public void addSite(string name, string url, string image = null)
+        {
+            if (sites.FirstOrDefault(x => x.Name == name && x.Url == url) == null)
+                return;
+
+            Site site = new Site();
+            site.Name = name;
+            site.Url = url;
+            site.Image = image;
+
+            sites.Add(site);
+        }
+
+        public void removeSite(string url)
+        {
+            var site = sites.FirstOrDefault(x => x.Url == url);
+
+            if (site != null)
+                sites.Remove(site);
+        }
+
+        public void addTeam(string name)
+        {
+            if (teams.FirstOrDefault(x => x.DisplayName == name || x.PossibleNames.FirstOrDefault(possibleName => possibleName.PossibleName == name) != null) == null)
+                return;
+
+            Team team = new Team();
+            team.DisplayName = name;
+
+            teams.Add(team);
+        }
     }
 }
