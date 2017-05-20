@@ -83,15 +83,21 @@ namespace AlgotrageFinder
             return (prob1 + prob2 + prob3);
         }
 
-        //public void checkForUpdates()
-        //{
-        //    foreach (var arbitrage in activeArbitrages)
-        //    {
-        //        if (arbitrage.Value.Game.Date > DateTime.Now ||
-        //            arbitrage.Value.HomeRatio != )
-                    
-        //    }
-        //}
+        public void checkForUpdates()
+        {
+            foreach (var arbitrage in activeArbitrages)
+            {
+                var game = arbitrage.Value.Game;
+
+                if (game.Date > DateTime.Now ||
+                    arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).SiteId ||
+                    arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).SiteId ||
+                    arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).SiteId)
+                {
+                    removeArbitrage(arbitrage.Value);
+                }
+            }
+        }
 
         private void removeArbitrage(Arbitrage arbitrage)
         {
