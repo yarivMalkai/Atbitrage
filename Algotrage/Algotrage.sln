@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgotrageDAL", "AlgotrageDAL\AlgotrageDAL.csproj", "{29742348-5280-407B-9B6E-0BBF2B78CA73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgotrageFinder", "AlgotrageFinder\AlgotrageFinder.csproj", "{5F5726CE-6724-47F7-9BEA-B4D934F655DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgotrageScraper", "AlgotrageScraper\AlgotrageScraper.csproj", "{45AA5983-28C0-4267-BFAB-121D44D82B4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5F5726CE-6724-47F7-9BEA-B4D934F655DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F5726CE-6724-47F7-9BEA-B4D934F655DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F5726CE-6724-47F7-9BEA-B4D934F655DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45AA5983-28C0-4267-BFAB-121D44D82B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45AA5983-28C0-4267-BFAB-121D44D82B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45AA5983-28C0-4267-BFAB-121D44D82B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45AA5983-28C0-4267-BFAB-121D44D82B4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
