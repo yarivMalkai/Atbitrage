@@ -1,4 +1,5 @@
 ﻿using AlgotrageDAL.Entities;
+using AlgotrageDAL.EntityManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,26 +10,22 @@ namespace AlgotrageFinder
 {
     public class ArbitrageManager
     {
-        private List<Team> teams;
-        private List<Game> games;
-        private List<Site> sites;
-
         private Dictionary<int, Arbitrage> activeArbitrages;
+        private ArbitragesDbManager arbitrageDBManager;
 
         public ArbitrageManager()
         {
-            teams = new List<Team>();
-            games = new List<Game>();
-            sites = new List<Site>();
-
             activeArbitrages = new Dictionary<int, Arbitrage>();
+
+            foreach (var curr in arbitrageDBManager.GetActiveArbitrages())
+            {
+                activeArbitrages.Add(curr.GameId, curr);
+            }
         }
-
-
 
         public void findArbitrage()
         {
-            foreach (var game in games)
+            foreach (var game in new GamesManager().GetAll())
             {
                 // Checking if we didn't find arbitrage for current game yet
                 if (!activeArbitrages.ContainsKey(game.Id))
@@ -49,48 +46,6 @@ namespace AlgotrageFinder
                 {
                     removeArbitrage(arbitrage.Value);
                 }
-            }
-        }
-
-        public void addSite(string name, string url, string image = null)
-        {
-            if (sites.FirstOrDefault(x => x.Name == name && x.Url == url) == null)
-                return;
-
-            Site site = new Site();
-            site.Name = name;
-            site.Url = url;
-            site.Image = image;
-
-            sites.Add(site);
-        }
-
-        public void removeSite(string url)
-        {
-            var site = sites.FirstOrDefault(x => x.Url == url);
-
-            if (site != null)
-                sites.Remove(site);
-        }
-
-        public void addTeam(string name)
-        {
-            Team team = teams.FirstOrDefault(x => x.DisplayName == name || x.PossibleNames.FirstOrDefault(possibleName => possibleName.PossibleName == name) != null);
-
-            if (team == null)
-            {
-                team = new Team();
-                team.DisplayName = name;
-
-                teams.Add(team);
-            }
-            else
-            {
-                TeamPossibleName anotherName = new TeamPossibleName();
-                anotherName.PossibleName = name;
-                anotherName.TeamId = team.Id;
-
-                team.PossibleNames.Add(anotherName);
             }
         }
 
@@ -129,6 +84,7 @@ namespace AlgotrageFinder
             arbitrage.FindTime = DateTime.Now;
 
             activeArbitrages.Add(game.Id, arbitrage);
+            arbitrageDBManager.Add(arbitrage); // Add to DB
         }
 
         private double calcBetPercent(double probability, double probabilitesSum)
@@ -147,9 +103,11 @@ namespace AlgotrageFinder
 
         private void removeArbitrage(Arbitrage arbitrage)
         {
+            arbitrage.IsActive = false;
             arbitrage.ExpireTime = DateTime.Now;
 
             activeArbitrages.Remove(arbitrage.GameId);
+            arbitrageDBManager.Update(arbitrage);
         }
     }
 }

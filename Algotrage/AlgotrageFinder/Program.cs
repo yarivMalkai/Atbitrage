@@ -13,10 +13,10 @@ namespace AlgotrageFinder
     {
         static void Main(string[] args)
         {
-            ArbitrageManager man = new ArbitrageManager();
-
             while (true)
             {
+                ArbitrageManager man = new ArbitrageManager();
+
                 man.checkForUpdates();
                 man.findArbitrage();
 
