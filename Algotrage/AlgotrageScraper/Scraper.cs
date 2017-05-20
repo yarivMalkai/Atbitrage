@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.IO;
 
 namespace AlgotrageScraper
 {
@@ -22,32 +23,41 @@ namespace AlgotrageScraper
             //var ratioXExp = ".//div/div[contains(@class,'market-options')]/div/div[2]/div/a/span[2]";
             //var ratio2Exp = ".//div/div[contains(@class,'market-options')]/div/div[3]/div/a/span[2]";
 
-            ////ParsePage(url, gamelistExp, gamelistExp, ratio1Exp, ratioXExp, ratio2Exp);
+            var siteInfoList = GetAllSitesInfo();
 
-            //var url = "http://www.sportsbet.com.au/betting/soccer";
-            //var gamelistExp = "//ul[contains(@class,'accordion-main')]/li[not(@class)]";
-            //var team1Exp = ".//div[contains(@class,'accordion-body')]/div/div[1]/a/span[1]";
-            //var team2Exp = ".//div[contains(@class,'accordion-body')]/div/div[3]/a/span[1]";
-            //var ratio1Exp = ".//div[contains(@class,'accordion-body')]/div/div[1]/a/span[2]";
-            //var ratioXExp = ".//div[contains(@class,'accordion-body')]/div/div[2]/a/span[2]";
-            //var ratio2Exp = ".//div[contains(@class,'accordion-body')]/div/div[3]/a/span[2]";
-
-            //LoadAndParse(url, gamelistExp, team1Exp, team2Exp, ratio1Exp, ratioXExp, ratio2Exp);
+            foreach (var siteInfo in siteInfoList)
+            {
+                LoadAndParse(siteInfo);
+            }
 
             Console.Read();
         }
 
-        private static void LoadAndParse(string url, string gamelistExp, string team1Exp, string team2Exp, string ratio1Exp, string ratioXExp, string ratio2Exp)
+        private static List<SiteScrapingInfo> GetAllSitesInfo()
+        {
+            var list = new List<SiteScrapingInfo>();
+            string[] csvText = File.ReadAllLines("ScrapingInfo.csv");
+
+            foreach (string line in csvText)
+            {
+                var currInfo = line.Split(',');
+                list.Add(new SiteScrapingInfo(currInfo[0], currInfo[1], currInfo[2], currInfo[3], currInfo[4], currInfo[5], currInfo[6]));
+            }
+
+            return list;
+        }
+
+        private static void LoadAndParse(SiteScrapingInfo info)
         {
             using (var driver = new ChromeDriver())
             {
-                driver.Navigate().GoToUrl(url);
+                driver.Navigate().GoToUrl(info.Url);
                 for (int i = 0; i < 100; i++)
                 {
                     var html = driver.FindElementByTagName("html");
                     try
                     {
-                        if (ParsePage(html.GetAttribute("innerHTML"), gamelistExp, team1Exp, team2Exp, ratio1Exp, ratioXExp, ratio2Exp))
+                        if (ParsePage(html.GetAttribute("innerHTML"), info.GameListExpression, info.Team1NameExpression, info.Team2NameExpression, info.Ratio1Expression, info.RatioXExpression, info.Ratio2Expression))
                             break;
                     }
                     catch (StaleElementReferenceException e) { }
@@ -68,7 +78,6 @@ namespace AlgotrageScraper
                 var r1 = game.SelectSingleNode(ratio1Exp);
                 var rX = game.SelectSingleNode(ratioXExp);
                 var r2 = game.SelectSingleNode(ratio2Exp);
-                Console.WriteLine("{0} vs {1}: 1: {2}   X: {3}   2: 4{3}", team1.InnerText.Trim(), team2.InnerText.Trim(), r1.InnerText.Trim(), rX.InnerText.Trim(), r2.InnerText.Trim());
             }
 
             return true;
