@@ -14,5 +14,9 @@ namespace AlgotrageDAL.Entities
         public double HomeRatio { get; set; }
         public double DrawRatio { get; set; }
         public double AwayRatio { get; set; }
+        public DateTime LastUpdateTime { get; set; }
+
+        public virtual Site Site { get; set; }
+        public virtual Game Game { get; set; }
     }
 }

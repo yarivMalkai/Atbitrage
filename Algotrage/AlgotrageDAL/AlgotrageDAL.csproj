@@ -50,13 +50,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Context\AlgotrageContext.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\GameSiteRatio.cs" />
     <Compile Include="Entities\Site.cs" />
     <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\TeamPossibleName.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Migrations\201705201416555_inital.cs" />
+    <Compile Include="Migrations\201705201416555_inital.Designer.cs">
+      <DependentUpon>201705201416555_inital.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201705201416555_inital.resx">
+      <DependentUpon>201705201416555_inital.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
