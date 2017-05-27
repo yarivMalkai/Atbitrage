@@ -40,11 +40,11 @@ namespace AlgotrageFinder
                 var game = arbitrage.Value.Game;
 
                 if (game.Date > DateTime.Now ||
-                    arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).SiteId ||
-                    arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).SiteId ||
-                    arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).SiteId)
+                    arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).HomeRatio ||
+                    arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).DrawRatio ||
+                    arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).AwayRatio)
                 {
-                    removeArbitrage(arbitrage.Value);
+                    deactivateArbitrage(arbitrage.Value);
                 }
             }
         }
@@ -63,7 +63,11 @@ namespace AlgotrageFinder
                 createNewArbitrage(game, bestHomeRatio, bestDrawRatio, bestAwayRatio, probability);
         }
 
-        private void createNewArbitrage(Game game, GameSiteRatio homeRatio, GameSiteRatio drawRatio, GameSiteRatio awayRatio, double probability)
+        private void createNewArbitrage(Game game,
+            GameSiteRatio homeRatio,
+            GameSiteRatio drawRatio,
+            GameSiteRatio awayRatio,
+            double probability)
         {
             Arbitrage arbitrage = new Arbitrage();
             arbitrage.GameId = game.Id;
@@ -74,7 +78,7 @@ namespace AlgotrageFinder
             arbitrage.DrawRatioSiteId = drawRatio.SiteId;
             arbitrage.AwayRatio = awayRatio.AwayRatio;
             arbitrage.AwayRatioSiteId = awayRatio.SiteId;
-            
+
             arbitrage.HomeBetPercent = calcBetPercent(homeRatio.HomeRatio, probability);
             arbitrage.DrawBetPercent = calcBetPercent(drawRatio.DrawRatio, probability);
             arbitrage.AwayBetPercent = calcBetPercent(awayRatio.AwayRatio, probability);
@@ -89,7 +93,7 @@ namespace AlgotrageFinder
 
         private double calcBetPercent(double probability, double probabilitesSum)
         {
-            return 1 / probability / probabilitesSum;
+            return (1 / probability) / probabilitesSum;
         }
 
         private double getProbability(double homeRatio, double drawRatio, double awayRatio)
@@ -101,7 +105,7 @@ namespace AlgotrageFinder
             return (prob1 + prob2 + prob3);
         }
 
-        private void removeArbitrage(Arbitrage arbitrage)
+        private void deactivateArbitrage(Arbitrage arbitrage)
         {
             arbitrage.IsActive = false;
             arbitrage.ExpireTime = DateTime.Now;
