@@ -15,5 +15,11 @@ namespace AlgotrageDAL.EntityManagers
         {
             return base.GetAll().OrderBy(x => x.Date).ToList();
         }
+
+        public Game GetByTeams(Team team1, Team team2)
+        {
+            var games = GetAll();
+            return games.FirstOrDefault(g => g.HomeTeamId == team1.Id && g.AwayTeamId == team2.Id);
+        }
     }
 }

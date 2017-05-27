@@ -9,5 +9,11 @@ namespace AlgotrageDAL.EntityManagers
 {
     public class TeamsManager : AbstractEnttyManager<Team>
     {
+        public Team GetByPossibleName(string name)
+        {
+            var teams = GetAll();
+
+            return teams.FirstOrDefault(t => t.PossibleNames.ConvertAll(x => x.PossibleName).Contains(name));
+        }
     }
 }
