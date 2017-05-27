@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29742348-5280-407B-9B6E-0BBF2B78CA73}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{6E8BBF28-1DA6-4AE8-9FB7-1805C67CF14D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlgotrageDAL</RootNamespace>
-    <AssemblyName>AlgotrageDAL</AssemblyName>
+    <RootNamespace>Server</RootNamespace>
+    <AssemblyName>Server</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -45,6 +48,18 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.SelfHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.SelfHost.5.2.3\lib\net45\System.Web.Http.SelfHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,40 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Context\AlgotrageContext.cs" />
-    <Compile Include="Entities\Arbitrage.cs" />
-    <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\Game.cs" />
-    <Compile Include="Entities\GameSiteRatio.cs" />
-    <Compile Include="Entities\ScrapingInfo.cs" />
-    <Compile Include="Entities\Site.cs" />
-    <Compile Include="Entities\Team.cs" />
-    <Compile Include="Entities\TeamPossibleName.cs" />
-    <Compile Include="Entities\User.cs" />
-    <Compile Include="EntityManagers\AbstractEnttyManager.cs" />
-    <Compile Include="EntityManagers\ArbitragesDbManager.cs" />
-    <Compile Include="EntityManagers\GameSiteRatiosManager.cs" />
-    <Compile Include="EntityManagers\GamesManager.cs" />
-    <Compile Include="EntityManagers\TeamsManager.cs" />
-    <Compile Include="EntityManagers\UsersManager.cs" />
-    <Compile Include="Migrations\201705201815584_aaa.cs" />
-    <Compile Include="Migrations\201705201815584_aaa.Designer.cs">
-      <DependentUpon>201705201815584_aaa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705271332339_namefix.cs" />
-    <Compile Include="Migrations\201705271332339_namefix.Designer.cs">
-      <DependentUpon>201705271332339_namefix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705271334562_nullable.cs" />
-    <Compile Include="Migrations\201705271334562_nullable.Designer.cs">
-      <DependentUpon>201705271334562_nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705271700561_scrapingInfo.cs" />
-    <Compile Include="Migrations\201705271700561_scrapingInfo.Designer.cs">
-      <DependentUpon>201705271700561_scrapingInfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -94,18 +76,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705201815584_aaa.resx">
-      <DependentUpon>201705201815584_aaa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705271332339_namefix.resx">
-      <DependentUpon>201705271332339_namefix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705271334562_nullable.resx">
-      <DependentUpon>201705271334562_nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705271700561_scrapingInfo.resx">
-      <DependentUpon>201705271700561_scrapingInfo.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\AlgotrageRest\AlgotrageRest.csproj">
+      <Project>{06775e65-7223-4e78-9ae7-7b206c3796a9}</Project>
+      <Name>AlgotrageRest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

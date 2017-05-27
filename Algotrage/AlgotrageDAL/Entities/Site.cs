@@ -12,7 +12,8 @@ namespace AlgotrageDAL.Entities
         public string Name { get; set; }
         public string Url { get; set; }
         public string Image { get; set; }
-
+        [JsonIgnore]
+        public ScrapingInfo ScrapingInfo { get; set; }
         [JsonIgnore]
         public virtual List<GameSiteRatio> GameRatios { get; set; }
     }

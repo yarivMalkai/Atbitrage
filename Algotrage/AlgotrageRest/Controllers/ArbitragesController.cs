@@ -20,7 +20,10 @@ namespace AlgotrageRest.Controllers
         private AlgotrageContext db = new AlgotrageContext();
         private ArbitragesDbManager manager = new ArbitragesDbManager();
 
-        
+        public ArbitragesController() : base()
+        {
+
+        }
 
         // GET: api/Arbitrages
         public IEnumerable<Arbitrage> GetArbitrages()
