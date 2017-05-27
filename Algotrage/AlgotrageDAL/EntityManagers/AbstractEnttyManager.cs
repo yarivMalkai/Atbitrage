@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlgotrageDAL.EntityManagers
 {
-    public class AbstractEnttyManager<T> where T : BaseEntity
+    public abstract class AbstractEnttyManager<T> where T : BaseEntity
     {
         public virtual List<T> GetAll()
         {

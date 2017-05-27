@@ -68,6 +68,7 @@
     <Compile Include="EntityManagers\ArbitragesDbManager.cs" />
     <Compile Include="EntityManagers\GameSiteRatiosManager.cs" />
     <Compile Include="EntityManagers\GamesManager.cs" />
+    <Compile Include="EntityManagers\SitesManager.cs" />
     <Compile Include="EntityManagers\TeamsManager.cs" />
     <Compile Include="EntityManagers\UsersManager.cs" />
     <Compile Include="Migrations\201705201815584_aaa.cs" />
