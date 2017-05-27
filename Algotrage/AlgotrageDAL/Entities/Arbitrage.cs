@@ -21,11 +21,11 @@ namespace AlgotrageDAL.Entities
         public double HomeBetPercent { get; set; }
         public double DrawBetPercent { get; set; }
         public double AwayBetPercent { get; set; }
-        public double ProfitPervent { get; set; }
+        public double ProfitPercent { get; set; }
 
         public bool IsActive { get; set; }
-        public DateTime FindTime { get; set; }
-        public DateTime ExpireTime { get; set; }
+        public DateTime? FindTime { get; set; }
+        public DateTime? ExpireTime { get; set; }
 
         // Virtuals
         [ForeignKey("HomeRatioSiteId")]

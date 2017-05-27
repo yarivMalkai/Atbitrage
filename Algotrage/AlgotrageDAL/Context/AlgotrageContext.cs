@@ -18,6 +18,11 @@ namespace AlgotrageDAL.Context
         public DbSet<Team> Teams { get; set; }
         public DbSet<Arbitrage> Arbitrages { get; set; }
 
+        public AlgotrageContext() : base()
+        {
+
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

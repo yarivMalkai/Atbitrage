@@ -78,7 +78,7 @@ namespace AlgotrageFinder
             arbitrage.HomeBetPercent = calcBetPercent(homeRatio.HomeRatio, probability);
             arbitrage.DrawBetPercent = calcBetPercent(drawRatio.DrawRatio, probability);
             arbitrage.AwayBetPercent = calcBetPercent(awayRatio.AwayRatio, probability);
-            arbitrage.ProfitPervent = (1 / probability) - 1;
+            arbitrage.ProfitPercent = (1 / probability) - 1;
 
             arbitrage.IsActive = true;
             arbitrage.FindTime = DateTime.Now;

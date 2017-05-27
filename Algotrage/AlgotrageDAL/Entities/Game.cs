@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace AlgotrageDAL.Entities
         public virtual Team HomeTeam { get; set; }
         [ForeignKey("AwayTeamId")]
         public virtual Team AwayTeam { get; set; }
+        [JsonIgnore]
         public virtual List<GameSiteRatio> GameSiteRatios { get; set; }
     }
 }
