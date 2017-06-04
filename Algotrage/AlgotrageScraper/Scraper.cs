@@ -67,8 +67,6 @@ namespace AlgotrageScraper
             {
                 LoadAndParse(site);
             }
-
-            Console.Read();
         }
 
         private static void LoadAndParse(Site site)
@@ -84,11 +82,8 @@ namespace AlgotrageScraper
                         DateTime date;
                         string team1, team2;
                         double r1, rX, r2;
-                        if (TryParsePage(html.GetAttribute("innerHTML"), site.ScrapingInfo, out date, out team1, out team2, out r1, out rX, out r2))
-                        {
-                            AddGame(site.Id, date, team1, team2, r1, rX, r2);
+                        if (TryParsePage(html.GetAttribute("innerHTML"), site.Id, site.ScrapingInfo))
                             break;
-                        }
                     }
                     catch (StaleElementReferenceException) { }
                     catch (FormatException)
@@ -100,27 +95,21 @@ namespace AlgotrageScraper
             }
         }
 
-        static bool TryParsePage(string html, ScrapingInfo info, out DateTime date, out string team1, out string team2, out double r1, out double rX, out double r2)
+        static bool TryParsePage(string html, int siteId, ScrapingInfo info)
         {
-            date = DateTime.Now;
-            team1 = "";
-            team2 = "";
-            r1 = 0;
-            rX = 0;
-            r2 = 0;
             var page = new HtmlDocument();
             page.LoadHtml(html);
             var games = page.DocumentNode.SelectNodes(info.GameListExpression);
             if (games == null) return false;
             foreach (var game in games)
             {
-                date = ParseDate(ReadFromNode(game, info.DateExpression, info.DateAttribute), info.DateFormat);
-                team1 = ReadFromNode(game, info.HomeTeamNameExpression, info.HomeTeamAttribute);
-                team2 = ReadFromNode(game, info.AwayTeamNameExpression, info.AwayTeamAttribute);
-                r1 = double.Parse(ReadFromNode(game, info.HomeRatioExpression, info.HomeRatioAttribute));
-                rX = double.Parse(ReadFromNode(game, info.RatioXExpression, info.RatioXAttribute));
-                r2 = double.Parse(ReadFromNode(game, info.AwayRatioExpression, info.AwayRatioAttribute));
-                //AddGame(info.Id, date, team1, team2, r1, rX, r2);
+                var date = ParseDate(ReadFromNode(game, info.DateExpression, info.DateAttribute), info.DateFormat);
+                var team1 = ReadFromNode(game, info.HomeTeamNameExpression, info.HomeTeamAttribute);
+                var team2 = ReadFromNode(game, info.AwayTeamNameExpression, info.AwayTeamAttribute);
+                var r1 = ParseOdd(ReadFromNode(game, info.HomeRatioExpression, info.HomeRatioAttribute));
+                var rX = ParseOdd(ReadFromNode(game, info.RatioXExpression, info.RatioXAttribute));
+                var r2 = ParseOdd(ReadFromNode(game, info.AwayRatioExpression, info.AwayRatioAttribute));
+                AddGame(siteId, date, team1, team2, r1, rX, r2);
                 Console.WriteLine("{0}: {1} vs {2}\nHome: {3}\tDraw: {4}\tAway: {5}\n\n",
                     date, team1, team2, r1, rX, r2);
             }
@@ -131,6 +120,22 @@ namespace AlgotrageScraper
         private static DateTime ParseDate(string dateStr, string format)
         {
             return DateTime.ParseExact(dateStr, format, null);
+        }
+
+        private static double ParseOdd(string oddStr)
+        {
+            // If fraction
+            if (oddStr.Contains("/"))
+            {
+                var parts = oddStr.Split('/');
+                if (parts.Length != 2)
+                    throw new FormatException();
+
+                var prof = double.Parse(parts[0]) / double.Parse(parts[1]);
+                return 1 + Math.Round(prof, 2);
+            }
+
+            return double.Parse(oddStr);
         }
 
         static string ReadFromNode(HtmlNode root, string exp, string att)
@@ -163,7 +168,8 @@ namespace AlgotrageScraper
             {
                 team = new Team()
                 {
-                    DisplayName = teamName
+                    DisplayName = teamName,
+                    PossibleNames = new List<TeamPossibleName>()
                 };
                 manager.Add(team);
             }
@@ -181,7 +187,8 @@ namespace AlgotrageScraper
                 {
                     HomeTeam = team1,
                     AwayTeam = team2,
-                    Date = date
+                    Date = date,
+                    GameSiteRatios = new List<GameSiteRatio>()
                 };
                 manager.Add(game);
             }

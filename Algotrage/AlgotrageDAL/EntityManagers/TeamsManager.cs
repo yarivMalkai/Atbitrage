@@ -1,4 +1,5 @@
-﻿using AlgotrageDAL.Entities;
+﻿using AlgotrageDAL.Context;
+using AlgotrageDAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace AlgotrageDAL.EntityManagers
     {
         public Team GetByPossibleName(string name)
         {
-            var teams = GetAll();
-
-            return teams.FirstOrDefault(t => t.PossibleNames.ConvertAll(x => x.PossibleName).Contains(name));
+            using (var db = new AlgotrageContext())
+            {
+                var teams = db.Teams.ToList();
+                return teams.FirstOrDefault(t => t.DisplayName == name || t.PossibleNames.ConvertAll(x => x.PossibleName).Contains(name));
+            }
         }
     }
 }
