@@ -13,10 +13,13 @@ using AlgotrageDAL.Entities;
 
 namespace AlgotrageScraper
 {
-    class Scraper
+    public class Scraper
     {
         static void Main(string[] args)
         {
+            HtmlNode.ElementsFlags.Remove("form");
+
+            #region Intertops
             //var url = "https://sports.intertops.eu/en/Bets/Sport/12";
             //var gamelistExp = "//ul[contains(@class,'nextbets')]/li[not(@class)]";
             //var dateExp = ".//div/div[contains(@class, 'event-date')]/span";
@@ -56,10 +59,94 @@ namespace AlgotrageScraper
             //        AwayRatioAttribute = ratio2Att
             //    }
             //};
-            //new SitesManager().Add(tmp);
+            #endregion
 
-            //var siteInfo = new SiteScrapingInfo(2, url, gamelistExp, dateExp, dateAtt, dateFormat, team1Exp, team1Att, team2Exp, team2Att, ratio1Exp, ratio1Att, ratioXExp, ratioXAtt, ratio2Exp, ratio2Att);
-            //LoadAndParse(siteInfo);
+            #region WilliamHill
+            //var url = "http://sports.williamhill.com/bet/en-gb/betting/y/5/Football.html";
+            //var gamelistExp = "//tr[contains(@class,'rowOdd') and not(td[1]/a)]";
+            //var dateExp = ".//td[1]/span";
+            //var dateAtt = "";
+            //var dateFormat = "dd MMM";
+            //var team1Exp = ".//td[3]/a/span";
+            //var team1Att = "";
+            //var team2Exp = ".//td[3]/a/span";
+            //var team2Att = "";
+            //var ratio1Exp = ".//td[5]/div/div";
+            //var ratio1Att = "";
+            //var ratioXExp = ".//td[6]/div/div";
+            //var ratioXAtt = "";
+            //var ratio2Exp = ".//td[7]/div/div"; ;
+            //var ratio2Att = "";
+
+            //var tmp = new Site()
+            //{
+            //    Url = url,
+            //    Name = "WilliamHill",
+            //    Image = "",
+            //    ScrapingInfo = new ScrapingInfo()
+            //    {
+            //        GameListExpression = gamelistExp,
+            //        DateExpression = dateExp,
+            //        DateAttribute = dateAtt,
+            //        DateFormat = dateFormat,
+            //        HomeTeamNameExpression = team1Exp,
+            //        HomeTeamAttribute = team1Att,
+            //        AwayTeamNameExpression = team2Exp,
+            //        AwayTeamAttribute = team2Att,
+            //        HomeRatioExpression = ratio1Exp,
+            //        HomeRatioAttribute = ratio1Att,
+            //        RatioXExpression = ratioXExp,
+            //        RatioXAttribute = ratioXAtt,
+            //        AwayRatioExpression = ratio2Exp,
+            //        AwayRatioAttribute = ratio2Att
+            //    }
+            //};
+            #endregion
+
+            #region BWin
+            var url = "https://sports.bwin.com/en/sports#sportId=4";
+            var gamelistExp = "//div[@id='markets']/div[1]/div/div/div/div/div/div[contains(@class,'marketboard-event-group__item--sub-group')]/div/div[contains(@class,'marketboard-event-group__item--event')]";
+            var dateExp = "//div[@id='markets']/div[1]/div/div/h2/span";
+            var dateAtt = "";
+            var dateFormat = "dddd - M/d/yyyy";
+            var team1Exp = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[1]";
+            var team1Att = "";
+            var team2Exp = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[1]";
+            var team2Att = "";
+            var ratio1Exp = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[2]";
+            var ratio1Att = "";
+            var ratioXExp = ".//div/div/div[3]/table/tbody/tr/td[3]/form/button/div[2]";
+            var ratioXAtt = "";
+            var ratio2Exp = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[2]"; ;
+            var ratio2Att = "";
+
+            var tmp = new Site()
+            {
+                Url = url,
+                Name = "BWin",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = gamelistExp,
+                    DateExpression = dateExp,
+                    DateAttribute = dateAtt,
+                    DateFormat = dateFormat,
+                    HomeTeamNameExpression = team1Exp,
+                    HomeTeamAttribute = team1Att,
+                    AwayTeamNameExpression = team2Exp,
+                    AwayTeamAttribute = team2Att,
+                    HomeRatioExpression = ratio1Exp,
+                    HomeRatioAttribute = ratio1Att,
+                    RatioXExpression = ratioXExp,
+                    RatioXAttribute = ratioXAtt,
+                    AwayRatioExpression = ratio2Exp,
+                    AwayRatioAttribute = ratio2Att
+                }
+            };
+            #endregion
+
+            LoadAndParse(tmp);
+            new SitesManager().Add(tmp);
 
             var sites = new SitesManager().GetAll();
 
@@ -89,6 +176,7 @@ namespace AlgotrageScraper
                     catch (FormatException)
                     {
                         Logger.LogCantParse(site.Id);
+                        break;
                     }
                 }
                 driver.Close();
@@ -104,17 +192,48 @@ namespace AlgotrageScraper
             foreach (var game in games)
             {
                 var date = ParseDate(ReadFromNode(game, info.DateExpression, info.DateAttribute), info.DateFormat);
-                var team1 = ReadFromNode(game, info.HomeTeamNameExpression, info.HomeTeamAttribute);
-                var team2 = ReadFromNode(game, info.AwayTeamNameExpression, info.AwayTeamAttribute);
+                var teams = ExtractTeams(game, info);
+                var team1 = teams[0].Trim();
+                var team2 = teams[1].Trim();
                 var r1 = ParseOdd(ReadFromNode(game, info.HomeRatioExpression, info.HomeRatioAttribute));
                 var rX = ParseOdd(ReadFromNode(game, info.RatioXExpression, info.RatioXAttribute));
                 var r2 = ParseOdd(ReadFromNode(game, info.AwayRatioExpression, info.AwayRatioAttribute));
-                AddGame(siteId, date, team1, team2, r1, rX, r2);
+                //AddGame(siteId, date, team1, team2, r1, rX, r2);
                 Console.WriteLine("{0}: {1} vs {2}\nHome: {3}\tDraw: {4}\tAway: {5}\n\n",
                     date, team1, team2, r1, rX, r2);
             }
 
             return true;
+        }
+
+        private static string[] ExtractTeams(HtmlNode game, ScrapingInfo info)
+        {
+            var separators = new string[] { " vs. ", " vs ", " v " };
+            string[] teams = null;
+            if (info.HomeTeamNameExpression!= info.AwayTeamNameExpression ||
+                info.HomeTeamAttribute != info.AwayTeamAttribute)
+            {
+                teams = new string[2];
+                teams[0] = ReadFromNode(game, info.HomeTeamNameExpression, info.HomeTeamAttribute);
+                teams[1] = ReadFromNode(game, info.AwayTeamNameExpression, info.AwayTeamAttribute);
+            }
+            else
+            {
+                var teamsOneLine = ReadFromNode(game, info.HomeTeamNameExpression, info.HomeTeamAttribute).Replace("&nbsp;", " ");
+                foreach (var sep in separators)
+                {
+                    if (teamsOneLine.Contains(sep))
+                    {
+                        teams = teamsOneLine.Split(new[] { sep }, StringSplitOptions.RemoveEmptyEntries);
+                        break;
+                    }
+                }
+            }
+
+            if (teams != null)
+                return teams;
+            else
+                throw new FormatException();
         }
 
         private static DateTime ParseDate(string dateStr, string format)
@@ -134,6 +253,8 @@ namespace AlgotrageScraper
                 var prof = double.Parse(parts[0]) / double.Parse(parts[1]);
                 return 1 + Math.Round(prof, 2);
             }
+            else if (oddStr == "EVS")
+                return 2;
 
             return double.Parse(oddStr);
         }
@@ -147,7 +268,7 @@ namespace AlgotrageScraper
             else
                 val = node.InnerText;
 
-            return val;
+            return val.Trim();
         }
 
         static void AddGame(int siteId, DateTime date, string team1name, string team2name, double ratio1, double ratioX, double ratio2)
