@@ -16,6 +16,7 @@ namespace AlgotrageFinder
         public ArbitrageManager()
         {
             activeArbitrages = new Dictionary<int, Arbitrage>();
+            arbitrageDBManager = new ArbitragesDbManager();
 
             foreach (var curr in arbitrageDBManager.GetActiveArbitrages())
             {
@@ -39,7 +40,7 @@ namespace AlgotrageFinder
             {
                 var game = arbitrage.Value.Game;
 
-                if (game.Date > DateTime.Now ||
+                if (game.Date < DateTime.Now ||
                     arbitrage.Value.HomeRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.HomeRatioSiteId).HomeRatio ||
                     arbitrage.Value.DrawRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.DrawRatioSiteId).DrawRatio ||
                     arbitrage.Value.AwayRatio != game.GameSiteRatios.FirstOrDefault(x => x.GameId == game.Id && x.SiteId == arbitrage.Value.AwayRatioSiteId).AwayRatio)
@@ -109,8 +110,7 @@ namespace AlgotrageFinder
         {
             arbitrage.IsActive = false;
             arbitrage.ExpireTime = DateTime.Now;
-
-            activeArbitrages.Remove(arbitrage.GameId);
+            
             arbitrageDBManager.Update(arbitrage);
         }
     }
