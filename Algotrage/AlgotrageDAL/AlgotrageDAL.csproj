@@ -87,6 +87,10 @@
     <Compile Include="Migrations\201705271700561_scrapingInfo.Designer.cs">
       <DependentUpon>201705271700561_scrapingInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706061748585_timeFields.cs" />
+    <Compile Include="Migrations\201706061748585_timeFields.Designer.cs">
+      <DependentUpon>201706061748585_timeFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705271700561_scrapingInfo.resx">
       <DependentUpon>201705271700561_scrapingInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706061748585_timeFields.resx">
+      <DependentUpon>201706061748585_timeFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

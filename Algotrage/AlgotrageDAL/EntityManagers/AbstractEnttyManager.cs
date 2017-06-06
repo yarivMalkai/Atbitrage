@@ -13,10 +13,13 @@ namespace AlgotrageDAL.EntityManagers
     {
         public virtual List<T> GetAll()
         {
+            List<T> ts = null;
             using (var db = new AlgotrageContext())
             {
-                return db.Set<T>().ToList();
+                ts = db.Set<T>().ToList();
             }
+
+            return ts;
         }
 
         public virtual T GetById(int id)
