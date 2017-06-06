@@ -10,6 +10,7 @@ using OpenQA.Selenium.Support.UI;
 using System.IO;
 using AlgotrageDAL.EntityManagers;
 using AlgotrageDAL.Entities;
+using System.Text.RegularExpressions;
 
 namespace AlgotrageScraper
 {
@@ -24,7 +25,7 @@ namespace AlgotrageScraper
             //var gamelistExp = "//ul[contains(@class,'nextbets')]/li[not(@class)]";
             //var dateExp = ".//div/div[contains(@class, 'event-date')]/span";
             //var dateAtt = "title";
-            //var dateFormat = "M/dd/yyyy'<br/>'h:mm tt";
+            //var dateFormat = "M/d/yyyy'<br/>'h:mm tt";
             //var team1Exp = ".//div/div[contains(@class,'market-options')]/div/div[1]/div";
             //var team1Att = "title";
             //var team2Exp = ".//div/div[contains(@class,'market-options')]/div/div[3]/div";
@@ -47,6 +48,9 @@ namespace AlgotrageScraper
             //        DateExpression = dateExp,
             //        DateAttribute = dateAtt,
             //        DateFormat = dateFormat,
+            //        TimeExpression = timeExp,
+            //        TimeAttribute = timeAtt,
+            //        TimeFormat = timeFormat,
             //        HomeTeamNameExpression = team1Exp,
             //        HomeTeamAttribute = team1Att,
             //        AwayTeamNameExpression = team2Exp,
@@ -67,6 +71,9 @@ namespace AlgotrageScraper
             //var dateExp = ".//td[1]/span";
             //var dateAtt = "";
             //var dateFormat = "dd MMM";
+            //var timeExp = ".//td[2]/span";
+            //var timeAtt = "";
+            //var timeFormat = "HH:mm 'UK'";
             //var team1Exp = ".//td[3]/a/span";
             //var team1Att = "";
             //var team2Exp = ".//td[3]/a/span";
@@ -89,6 +96,9 @@ namespace AlgotrageScraper
             //        DateExpression = dateExp,
             //        DateAttribute = dateAtt,
             //        DateFormat = dateFormat,
+            //        TimeExpression = timeExp,
+            //        TimeAttribute = timeAtt,
+            //        TimeFormat = timeFormat,
             //        HomeTeamNameExpression = team1Exp,
             //        HomeTeamAttribute = team1Att,
             //        AwayTeamNameExpression = team2Exp,
@@ -109,6 +119,9 @@ namespace AlgotrageScraper
             var dateExp = "//div[@id='markets']/div[1]/div/div/h2/span";
             var dateAtt = "";
             var dateFormat = "dddd - M/d/yyyy";
+            var timeExp =  ".//div/div/div[1]";
+            var timeAtt = "";
+            var timeFormat = "h:mm tt";
             var team1Exp = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[1]";
             var team1Att = "";
             var team2Exp = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[1]";
@@ -131,6 +144,9 @@ namespace AlgotrageScraper
                     DateExpression = dateExp,
                     DateAttribute = dateAtt,
                     DateFormat = dateFormat,
+                    TimeExpression = timeExp,
+                    TimeAttribute = timeAtt,
+                    TimeFormat = timeFormat,
                     HomeTeamNameExpression = team1Exp,
                     HomeTeamAttribute = team1Att,
                     AwayTeamNameExpression = team2Exp,
@@ -191,7 +207,7 @@ namespace AlgotrageScraper
             if (games == null) return false;
             foreach (var game in games)
             {
-                var date = ParseDate(ReadFromNode(game, info.DateExpression, info.DateAttribute), info.DateFormat);
+                var datetime = GetDateTime(game, info);
                 var teams = ExtractTeams(game, info);
                 var team1 = teams[0].Trim();
                 var team2 = teams[1].Trim();
@@ -200,7 +216,7 @@ namespace AlgotrageScraper
                 var r2 = ParseOdd(ReadFromNode(game, info.AwayRatioExpression, info.AwayRatioAttribute));
                 //AddGame(siteId, date, team1, team2, r1, rX, r2);
                 Console.WriteLine("{0}: {1} vs {2}\nHome: {3}\tDraw: {4}\tAway: {5}\n\n",
-                    date, team1, team2, r1, rX, r2);
+                    datetime, team1, team2, r1, rX, r2);
             }
 
             return true;
@@ -236,7 +252,14 @@ namespace AlgotrageScraper
                 throw new FormatException();
         }
 
-        private static DateTime ParseDate(string dateStr, string format)
+        private static DateTime GetDateTime(HtmlNode game, ScrapingInfo info)
+        {
+            var date = ParseDateTime(ReadFromNode(game, info.DateExpression, info.DateAttribute), info.DateFormat);
+            var time = ParseDateTime(ReadFromNode(game, info.TimeExpression, info.TimeAttribute), info.TimeFormat);
+            return new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+        }
+
+        private static DateTime ParseDateTime(string dateStr, string format)
         {
             return DateTime.ParseExact(dateStr, format, null);
         }
