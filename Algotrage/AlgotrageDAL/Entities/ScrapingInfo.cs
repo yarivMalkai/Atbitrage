@@ -12,6 +12,9 @@ namespace AlgotrageDAL.Entities
         public string DateExpression { get; set; }
         public string DateAttribute { get; set; }
         public string DateFormat { get; set; }
+        public string TimeExpression { get; set; }
+        public string TimeAttribute { get; set; }
+        public string TimeFormat { get; set; }
         public string HomeTeamNameExpression { get; set; }
         public string HomeTeamAttribute { get; set; }
         public string AwayTeamNameExpression { get; set; }
