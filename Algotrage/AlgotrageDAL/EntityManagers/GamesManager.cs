@@ -13,7 +13,13 @@ namespace AlgotrageDAL.EntityManagers
     {
         public override List<Game> GetAll()
         {
-            return base.GetAll().OrderBy(x => x.Date).ToList();
+            List<Game> ts = null;
+            using (var db = new AlgotrageContext())
+            {
+                ts = db.Games.Include(x => x.GameSiteRatios).OrderBy(x => x.Date).ToList();
+            }
+
+            return ts;
         }
 
         public Game GetByTeams(Team team1, Team team2)
