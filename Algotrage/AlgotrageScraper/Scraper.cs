@@ -11,6 +11,7 @@ using System.IO;
 using AlgotrageDAL.EntityManagers;
 using AlgotrageDAL.Entities;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace AlgotrageScraper
 {
@@ -168,9 +169,14 @@ namespace AlgotrageScraper
 
             var sites = new SitesManager().GetAll();
 
-            foreach (var site in sites)
+            while (true)
             {
-                LoadAndParse(site);
+                foreach (var site in sites)
+                {
+                    LoadAndParse(site);
+                }
+
+                Thread.Sleep(1000*60);
             }
         }
 
