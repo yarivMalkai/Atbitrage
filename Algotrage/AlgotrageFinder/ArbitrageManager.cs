@@ -26,7 +26,7 @@ namespace AlgotrageFinder
 
         public void findArbitrage()
         {
-            foreach (var game in new GamesManager().GetAll())
+            foreach (var game in new GamesManager().GetActiveGames())
             {
                 // Checking if we didn't find arbitrage for current game yet
                 if (!activeArbitrages.ContainsKey(game.Id))

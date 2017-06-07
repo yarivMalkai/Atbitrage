@@ -22,6 +22,11 @@ namespace AlgotrageDAL.EntityManagers
             return ts;
         }
 
+        public List<Game> GetActiveGames()
+        {
+            return GetAll().Where(x => (x.Date > DateTime.Now)).ToList();
+        }
+
         public Game GetByTeams(Team team1, Team team2)
         {
             var games = GetAll();
