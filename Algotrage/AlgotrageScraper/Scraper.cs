@@ -19,153 +19,11 @@ namespace AlgotrageScraper
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Scraper starting");
             HtmlNode.ElementsFlags.Remove("form");
 
-            #region Intertops
-            //var url = "https://sports.intertops.eu/en/Bets/Sport/12";
-            //var gamelistExp = "//ul[contains(@class,'nextbets')]/li[not(@class)]";
-            //var dateExp = ".//div/div[contains(@class, 'event-date')]/span";
-            //var dateAtt = "title";
-            //var dateFormat = "M/d/yyyy'<br/>'h:mm tt";
-            //var timeExp = ".//div/div[contains(@class, 'event-date')]/span";
-            //var timeAtt = "title";
-            //var timeFormat = "M/d/yyyy'<br/>'h:mm tt";
-            //var team1Exp = ".//div/div[contains(@class,'market-options')]/div/div[1]/div";
-            //var team1Att = "title";
-            //var team2Exp = ".//div/div[contains(@class,'market-options')]/div/div[3]/div";
-            //var team2Att = "title";
-            //var ratio1Exp = ".//div/div[contains(@class,'market-options')]/div/div[1]/div/a/span[2]";
-            //var ratio1Att = "";
-            //var ratioXExp = ".//div/div[contains(@class,'market-options')]/div/div[2]/div/a/span[2]";
-            //var ratioXAtt = "";
-            //var ratio2Exp = ".//div/div[contains(@class,'market-options')]/div/div[3]/div/a/span[2]";
-            //var ratio2Att = "";
-
-            //var tmp = new Site()
-            //{
-            //    Url = url,
-            //    Name = "Intertops",
-            //    Image = "",
-            //    ScrapingInfo = new ScrapingInfo()
-            //    {
-            //        GameListExpression = gamelistExp,
-            //        DateExpression = dateExp,
-            //        DateAttribute = dateAtt,
-            //        DateFormat = dateFormat,
-            //        TimeExpression = timeExp,
-            //        TimeAttribute = timeAtt,
-            //        TimeFormat = timeFormat,
-            //        HomeTeamNameExpression = team1Exp,
-            //        HomeTeamAttribute = team1Att,
-            //        AwayTeamNameExpression = team2Exp,
-            //        AwayTeamAttribute = team2Att,
-            //        HomeRatioExpression = ratio1Exp,
-            //        HomeRatioAttribute = ratio1Att,
-            //        RatioXExpression = ratioXExp,
-            //        RatioXAttribute = ratioXAtt,
-            //        AwayRatioExpression = ratio2Exp,
-            //        AwayRatioAttribute = ratio2Att
-            //    }
-            //};
-            #endregion
-
-            #region WilliamHill
-            //var url = "http://sports.williamhill.com/bet/en-gb/betting/y/5/Football.html";
-            //var gamelistExp = "//tr[contains(@class,'rowOdd') and not(td[1]/a)]";
-            //var dateExp = ".//td[1]/span";
-            //var dateAtt = "";
-            //var dateFormat = "dd MMM";
-            //var timeExp = ".//td[2]/span";
-            //var timeAtt = "";
-            //var timeFormat = "HH:mm 'UK'";
-            //var team1Exp = ".//td[3]/a/span";
-            //var team1Att = "";
-            //var team2Exp = ".//td[3]/a/span";
-            //var team2Att = "";
-            //var ratio1Exp = ".//td[5]/div/div";
-            //var ratio1Att = "";
-            //var ratioXExp = ".//td[6]/div/div";
-            //var ratioXAtt = "";
-            //var ratio2Exp = ".//td[7]/div/div"; ;
-            //var ratio2Att = "";
-
-            //var tmp = new Site()
-            //{
-            //    Url = url,
-            //    Name = "WilliamHill",
-            //    Image = "",
-            //    ScrapingInfo = new ScrapingInfo()
-            //    {
-            //        GameListExpression = gamelistExp,
-            //        DateExpression = dateExp,
-            //        DateAttribute = dateAtt,
-            //        DateFormat = dateFormat,
-            //        TimeExpression = timeExp,
-            //        TimeAttribute = timeAtt,
-            //        TimeFormat = timeFormat,
-            //        HomeTeamNameExpression = team1Exp,
-            //        HomeTeamAttribute = team1Att,
-            //        AwayTeamNameExpression = team2Exp,
-            //        AwayTeamAttribute = team2Att,
-            //        HomeRatioExpression = ratio1Exp,
-            //        HomeRatioAttribute = ratio1Att,
-            //        RatioXExpression = ratioXExp,
-            //        RatioXAttribute = ratioXAtt,
-            //        AwayRatioExpression = ratio2Exp,
-            //        AwayRatioAttribute = ratio2Att
-            //    }
-            //};
-            #endregion
-
-            #region BWin
-            //var url = "https://sports.bwin.com/en/sports#sportId=4";
-            //var gamelistExp = "//div[@id='markets']/div[1]/div/div/div/div/div/div[contains(@class,'marketboard-event-group__item--sub-group')]/div/div[contains(@class,'marketboard-event-group__item--event')]";
-            //var dateExp = "//div[@id='markets']/div[1]/div/div/h2/span";
-            //var dateAtt = "";
-            //var dateFormat = "dddd - M/d/yyyy";
-            //var timeExp = ".//div/div/div[1]";
-            //var timeAtt = "";
-            //var timeFormat = "h:mm tt";
-            //var team1Exp = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[1]";
-            //var team1Att = "";
-            //var team2Exp = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[1]";
-            //var team2Att = "";
-            //var ratio1Exp = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[2]";
-            //var ratio1Att = "";
-            //var ratioXExp = ".//div/div/div[3]/table/tbody/tr/td[3]/form/button/div[2]";
-            //var ratioXAtt = "";
-            //var ratio2Exp = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[2]"; ;
-            //var ratio2Att = "";
-
-            //var tmp = new Site()
-            //{
-            //    Url = url,
-            //    Name = "BWin",
-            //    Image = "",
-            //    ScrapingInfo = new ScrapingInfo()
-            //    {
-            //        GameListExpression = gamelistExp,
-            //        DateExpression = dateExp,
-            //        DateAttribute = dateAtt,
-            //        DateFormat = dateFormat,
-            //        TimeExpression = timeExp,
-            //        TimeAttribute = timeAtt,
-            //        TimeFormat = timeFormat,
-            //        HomeTeamNameExpression = team1Exp,
-            //        HomeTeamAttribute = team1Att,
-            //        AwayTeamNameExpression = team2Exp,
-            //        AwayTeamAttribute = team2Att,
-            //        HomeRatioExpression = ratio1Exp,
-            //        HomeRatioAttribute = ratio1Att,
-            //        RatioXExpression = ratioXExp,
-            //        RatioXAttribute = ratioXAtt,
-            //        AwayRatioExpression = ratio2Exp,
-            //        AwayRatioAttribute = ratio2Att
-            //    }
-            //};
-            #endregion
-
-            //new SitesManager().Add(tmp);
+            //Test();
+            //SetupSites();
 
             var sites = new SitesManager().GetAll();
 
@@ -173,11 +31,151 @@ namespace AlgotrageScraper
             {
                 foreach (var site in sites)
                 {
+                    Console.WriteLine("\nParsing site {0}: {1}", site.Id, site.Name);
                     LoadAndParse(site);
                 }
 
+                Console.WriteLine("\nSleeping until next go...\n");
                 Thread.Sleep(1000*60);
             }
+        }
+
+        private static void Test()
+        {
+            var datetime = DateTime.Now;
+            var team1 = GetOrAddTeam("Manchester United");
+            var team2 = GetOrAddTeam("Manchester City");
+            var team3 = GetOrAddTeam("Man United");
+            var team4 = GetOrAddTeam("Man City");
+
+            GetOrAddGame(datetime, team1, team2);
+            GetOrAddGame(datetime, team3, team2);
+            GetOrAddGame(datetime, team1, team4);
+        }
+
+        private static void SetupSites()
+        {
+            var manager = new SitesManager();
+
+            #region Intertops - Next Games
+            var IntertopsNG = new Site()
+            {
+                Url = "https://sports.intertops.eu/en/Bets/Sport/12",
+                Name = "Intertops - Next Games",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = "//ul[contains(@class,'nextbets')]/li[not(@class)]",
+                    DateExpression = ".//div/div[contains(@class, 'event-date')]/span",
+                    DateAttribute = "title",
+                    DateFormat = "M/d/yyyy'<br/>'h:mm tt",
+                    TimeExpression = ".//div/div[contains(@class, 'event-date')]/span",
+                    TimeAttribute = "title",
+                    TimeFormat = "M/d/yyyy'<br/>'h:mm tt",
+                    HomeTeamNameExpression = ".//div/div[contains(@class,'market-options')]/div/div[1]/div",
+                    HomeTeamAttribute = "title",
+                    AwayTeamNameExpression = ".//div/div[contains(@class,'market-options')]/div/div[3]/div",
+                    AwayTeamAttribute = "title",
+                    HomeRatioExpression = ".//div/div[contains(@class,'market-options')]/div/div[1]/div/a/span[2]",
+                    HomeRatioAttribute = "",
+                    RatioXExpression = ".//div/div[contains(@class,'market-options')]/div/div[2]/div/a/span[2]",
+                    RatioXAttribute = "",
+                    AwayRatioExpression = ".//div/div[contains(@class,'market-options')]/div/div[3]/div/a/span[2]",
+                    AwayRatioAttribute = "",
+                }
+            };
+            #endregion
+            manager.Add(IntertopsNG);
+
+            #region Intertops - Top Bets
+            var IntertopsTB = new Site()
+            {
+                Url = "https://sports.intertops.eu/en/Bets/Sport/12",
+                Name = "Intertops - Top Bets",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = "//ul[contains(@class,'topbets')]/li",
+                    DateExpression = ".//div/div[contains(@class, 'event-date')]/span",
+                    DateAttribute = "title",
+                    DateFormat = "M/d/yyyy'<br/>'h:mm tt",
+                    TimeExpression = ".//div/div[contains(@class, 'event-date')]/span",
+                    TimeAttribute = "title",
+                    TimeFormat = "M/d/yyyy'<br/>'h:mm tt",
+                    HomeTeamNameExpression = ".//div/div[contains(@class,'market-options')]/div/div[1]/div",
+                    HomeTeamAttribute = "title",
+                    AwayTeamNameExpression = ".//div/div[contains(@class,'market-options')]/div/div[3]/div",
+                    AwayTeamAttribute = "title",
+                    HomeRatioExpression = ".//div/div[contains(@class,'market-options')]/div/div[1]/div/a/span[2]",
+                    HomeRatioAttribute = "",
+                    RatioXExpression = ".//div/div[contains(@class,'market-options')]/div/div[2]/div/a/span[2]",
+                    RatioXAttribute = "",
+                    AwayRatioExpression = ".//div/div[contains(@class,'market-options')]/div/div[3]/div/a/span[2]",
+                    AwayRatioAttribute = "",
+                }
+            };
+            #endregion
+            //manager.Add(IntertopsTB);
+
+            #region WilliamHill
+            var WilliamHill = new Site()
+            {
+                Url = "http://sports.williamhill.com/bet/en-gb/betting/y/5/Football.html",
+                Name = "WilliamHill",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = "//tr[contains(@class,'rowOdd') and not(td[1]/a)]",
+                    DateExpression = ".//td[1]/span",
+                    DateAttribute = "",
+                    DateFormat = "dd MMM",
+                    TimeExpression = ".//td[2]/span",
+                    TimeAttribute = "",
+                    TimeFormat = "HH:mm 'UK'",
+                    HomeTeamNameExpression = ".//td[3]/a/span",
+                    HomeTeamAttribute = "",
+                    AwayTeamNameExpression = ".//td[3]/a/span",
+                    AwayTeamAttribute = "",
+                    HomeRatioExpression = ".//td[5]/div/div",
+                    HomeRatioAttribute = "",
+                    RatioXExpression = ".//td[6]/div/div",
+                    RatioXAttribute = "",
+                    AwayRatioExpression = ".//td[7]/div/div",
+                    AwayRatioAttribute = "",
+                }
+            };
+            #endregion
+            manager.Add(WilliamHill);
+            
+            #region BWin
+            var BWin = new Site()
+            {
+                Url = "https://sports.bwin.com/en/sports#sportId=4",
+                Name = "BWin",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = "//div[@id='markets']/div[1]/div/div/div/div/div/div[contains(@class,'marketboard-event-group__item--sub-group')]/div/div[contains(@class,'marketboard-event-group__item--event')]",
+                    DateExpression = "//div[@id='markets']/div[1]/div/div/h2/span",
+                    DateAttribute = "",
+                    DateFormat = "dddd - M/d/yyyy",
+                    TimeExpression = ".//div/div/div[1]",
+                    TimeAttribute = "",
+                    TimeFormat = "h:mm tt",
+                    HomeTeamNameExpression = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[1]",
+                    HomeTeamAttribute = "",
+                    AwayTeamNameExpression = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[1]",
+                    AwayTeamAttribute = "",
+                    HomeRatioExpression = ".//div/div/div[3]/table/tbody/tr/td[1]/form/button/div[2]",
+                    HomeRatioAttribute = "",
+                    RatioXExpression = ".//div/div/div[3]/table/tbody/tr/td[3]/form/button/div[2]",
+                    RatioXAttribute = "",
+                    AwayRatioExpression = ".//div/div/div[3]/table/tbody/tr/td[5]/form/button/div[2]",
+                    AwayRatioAttribute = ""
+                }
+            };
+            #endregion
+            manager.Add(BWin);
         }
 
         private static void LoadAndParse(Site site)
@@ -331,20 +329,48 @@ namespace AlgotrageScraper
         private static Game GetOrAddGame(DateTime date, Team team1, Team team2)
         {
             var manager = new GamesManager();
-            var game = manager.GetByTeams(team1, team2);
+            var game = manager.GetByTeamsAndDate(team1, team2, date) ?? manager.GetByTeamsAndDate(team2, team1, date);
+
             if (game == null)
             {
-                game = new Game()
+                // Check if game exists but one of the team names is different
+                game = manager.GetByHomeTeamAndDate(team1, date);
+                if (game != null)
+                    SetPossibleName(game.AwayTeamId, team2);
+                else
                 {
-                    HomeTeamId = team1.Id,
-                    AwayTeamId = team2.Id,
-                    Date = date,
-                    GameSiteRatios = new List<GameSiteRatio>()
-                };
-                manager.Add(game);
+                    game = manager.GetByAwayTeamAndDate(team2, date);
+                    if (game != null)
+                        SetPossibleName(game.HomeTeamId, team1);
+                    else
+                    {
+                        game = new Game()
+                        {
+                            HomeTeamId = team1.Id,
+                            AwayTeamId = team2.Id,
+                            Date = date,
+                            GameSiteRatios = new List<GameSiteRatio>()
+                        };
+                        manager.Add(game);
+                    }
+                }
             }
 
             return game;
+        }
+
+        private static void SetPossibleName(int teamId, Team team)
+        {
+            var manager = new TeamsManager();
+            var existingTeam = manager.GetById(teamId);
+            manager.AddPossibleName(new TeamPossibleName()
+            {
+                TeamId = teamId,
+                PossibleName = team.DisplayName,
+            });
+            //existingTeam.PossibleNames.Add();
+            //manager.Update(existingTeam);
+            manager.Remove(team);
         }
 
         private static void UpdateOrAddRatio(Game game, int siteId, double ratio1, double ratioX, double ratio2)

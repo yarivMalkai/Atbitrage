@@ -27,10 +27,27 @@ namespace AlgotrageDAL.EntityManagers
             return GetAll().Where(x => (x.Date > DateTime.Now)).ToList();
         }
 
-        public Game GetByTeams(Team team1, Team team2)
+        public Game GetByTeamsAndDate(Team team1, Team team2, DateTime date)
         {
             var games = GetAll();
-            return games.FirstOrDefault(g => g.HomeTeamId == team1.Id && g.AwayTeamId == team2.Id);
+            return games.FirstOrDefault(g => g.HomeTeamId == team1.Id && g.AwayTeamId == team2.Id && SameDate(g.Date, date));
+        }
+
+        public Game GetByHomeTeamAndDate(Team team, DateTime date)
+        {
+            var games = GetAll();
+            return games.FirstOrDefault(g => g.HomeTeamId == team.Id && SameDate(g.Date, date));
+        }
+
+        public Game GetByAwayTeamAndDate(Team team, DateTime date)
+        {
+            var games = GetAll();
+            return games.FirstOrDefault(g => g.AwayTeamId == team.Id && SameDate(g.Date, date));
+        }
+
+        private bool SameDate(DateTime date1, DateTime date2)
+        {
+            return date1.Year == date2.Year && date1.Month == date2.Month && date1.Day == date2.Day;
         }
     }
 }
