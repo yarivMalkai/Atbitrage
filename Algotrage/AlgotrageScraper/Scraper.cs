@@ -12,6 +12,7 @@ using AlgotrageDAL.EntityManagers;
 using AlgotrageDAL.Entities;
 using System.Text.RegularExpressions;
 using System.Threading;
+using F23.StringSimilarity;
 
 namespace AlgotrageScraper
 {
@@ -176,6 +177,36 @@ namespace AlgotrageScraper
             };
             #endregion
             manager.Add(BWin);
+
+            #region MockSite1
+            var MockSite = new Site()
+            {
+                Url = "http://lior-kedem.com/dor_test/MockSite1.html",
+                Name = "Intertops - Next Games",
+                Image = "",
+                ScrapingInfo = new ScrapingInfo()
+                {
+                    GameListExpression = "//ul/li",
+                    DateExpression = ".//div[1]",
+                    DateAttribute = "",
+                    DateFormat = "dd/MM/yy HH:mm",
+                    TimeExpression = ".//div[1]",
+                    TimeAttribute = "",
+                    TimeFormat = "dd/MM/yy HH:mm",
+                    HomeTeamNameExpression = ".//div[2]/span[1]",
+                    HomeTeamAttribute = "",
+                    AwayTeamNameExpression = ".//div[4]/span[1]",
+                    AwayTeamAttribute = "",
+                    HomeRatioExpression = ".//div[2]/span[2]",
+                    HomeRatioAttribute = "",
+                    RatioXExpression = ".//div[3]/span[2]",
+                    RatioXAttribute = "",
+                    AwayRatioExpression = ".//div[4]/span[2]",
+                    AwayRatioAttribute = "",
+                }
+            };
+            #endregion
+            manager.Add(MockSite);
         }
 
         private static void LoadAndParse(Site site)
@@ -336,12 +367,12 @@ namespace AlgotrageScraper
                 // Check if game exists but one of the team names is different
                 game = manager.GetByHomeTeamAndDate(team1, date);
                 if (game != null)
-                    SetPossibleName(game.AwayTeamId, team2);
+                    SetPossibleNameIfNeeded(game.AwayTeamId, team2);
                 else
                 {
                     game = manager.GetByAwayTeamAndDate(team2, date);
                     if (game != null)
-                        SetPossibleName(game.HomeTeamId, team1);
+                        SetPossibleNameIfNeeded(game.HomeTeamId, team1);
                     else
                     {
                         game = new Game()
@@ -359,18 +390,21 @@ namespace AlgotrageScraper
             return game;
         }
 
-        private static void SetPossibleName(int teamId, Team team)
+        private static void SetPossibleNameIfNeeded(int teamId, Team team)
         {
             var manager = new TeamsManager();
             var existingTeam = manager.GetById(teamId);
-            manager.AddPossibleName(new TeamPossibleName()
+            if (JaroWinklerWrapper.AreSimilar(existingTeam.DisplayName.ToLower(), team.DisplayName.ToLower()))
             {
-                TeamId = teamId,
-                PossibleName = team.DisplayName,
-            });
-            //existingTeam.PossibleNames.Add();
-            //manager.Update(existingTeam);
-            manager.Remove(team);
+                manager.AddPossibleName(new TeamPossibleName()
+                {
+                    TeamId = teamId,
+                    PossibleName = team.DisplayName,
+                });
+                //existingTeam.PossibleNames.Add();
+                //manager.Update(existingTeam);
+                manager.Remove(team);
+            }
         }
 
         private static void UpdateOrAddRatio(Game game, int siteId, double ratio1, double ratioX, double ratio2)
