@@ -14,6 +14,7 @@ namespace AlgotrageFinder
     {
         static void Main(string[] args)
         {
+            /*
             GamesManager gameMan = new GamesManager();
             var game = gameMan.GetAll()[0];
 
@@ -51,7 +52,7 @@ namespace AlgotrageFinder
             ratiosMan.Add(g1);
             ratiosMan.Add(g2);
             ratiosMan.Add(g3);
-
+            */
             while (true)
             {
                 ArbitrageManager man = new ArbitrageManager();
