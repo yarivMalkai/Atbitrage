@@ -23,7 +23,6 @@ namespace AlgotrageScraper
             Console.WriteLine("Scraper starting");
             HtmlNode.ElementsFlags.Remove("form");
 
-            //Test();
             //SetupSites();
 
             var sites = new SitesManager().GetAll();
@@ -39,19 +38,6 @@ namespace AlgotrageScraper
                 Console.WriteLine("\nSleeping until next go...\n");
                 Thread.Sleep(1000*60);
             }
-        }
-
-        private static void Test()
-        {
-            var datetime = DateTime.Now;
-            var team1 = GetOrAddTeam("Manchester United");
-            var team2 = GetOrAddTeam("Manchester City");
-            var team3 = GetOrAddTeam("Man United");
-            var team4 = GetOrAddTeam("Man City");
-
-            GetOrAddGame(datetime, team1, team2);
-            GetOrAddGame(datetime, team3, team2);
-            GetOrAddGame(datetime, team1, team4);
         }
 
         private static void SetupSites()
